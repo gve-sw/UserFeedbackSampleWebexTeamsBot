@@ -1,0 +1,6 @@
+---
+hooks:
+    - name: "attachment actions hook"
+      resource: "attachmentActions"
+      event: "created"
+      target_url: "{{ remote_prefix }}/webhooks/attachmentActions"

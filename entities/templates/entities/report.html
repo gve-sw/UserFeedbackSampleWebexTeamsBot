@@ -1,0 +1,41 @@
+{% extends 'entities/base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Report </h1>
+        <p class="lead">
+            Your question set <strong>{{ question_set.name }}</strong> 
+            containing <strong>{{ question_set.questions.all|length }} Questions</strong>
+            received <strong>{{ reply_sets|length }} replies.</strong>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>Replier</th>
+                {% for q in question_set.questions.all %}
+                <th>{{ q.text }}</th>
+                {% endfor %}
+            </tr>
+            {% for rs in reply_sets %}
+            <tr>
+                <td>{{ rs.receiver }}</td>
+                {% for q in question_set.questions.all %}
+                {% for r in rs.replies.all %}
+                {% if r.question == q %}
+                <td>{{ r.text }}</td>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="float-right">
+            <a target="_blank" class="btn btn-success" href="{% url 'download.questions' question_set.id %}">Download Data</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

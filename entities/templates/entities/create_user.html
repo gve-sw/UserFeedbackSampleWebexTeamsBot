@@ -1,0 +1,57 @@
+{% extends 'entities/base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>List of Current Receiver</h1>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>E-Mail</th>
+            </tr>
+            {% for u in receiver %}
+            <tr>
+                <td>{{ u.name }}</td>
+                <td>{{ u.mail }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Create Channel</h1>
+        <form action="{% url 'create.channel' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form add_channel_form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-success">Create Channel</button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Create Receiver</h1>
+        <form action="{% url 'users' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form receiver_form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-success">Create Receiver</button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Add Receiver to Channel</h1>
+        <form action="{% url 'create.subscription' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form add_subscriber_form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-success">Add Receiver to Channel</button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+{% endblock %}

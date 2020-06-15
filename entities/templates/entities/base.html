@@ -1,0 +1,78 @@
+
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <style>
+    {% block css %}
+
+    {% endblock %}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Survey and User Feedback Bot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users' %}">User Management</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'create.question' %}">Create QuestionSet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'questions' %}">List QuestionSets</a>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        {% bootstrap_messages %}
+        {% block content %}{% endblock %}
+      </div>
+      {% block modals %}{% endblock %}
+      <script>
+          {% block javascript %}
+            $(document).ready(function() {
+                $(".search").keyup(function () {
+                  var searchTerm = $(".search").val();
+                  var listItem = $('.results tbody').children('tr');
+                  var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+                  
+                $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+                      return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+                  }
+                });
+                  
+                $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+                  $(this).attr('visible','false');
+                });
+
+                $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+                  $(this).attr('visible','true');
+                });
+
+                var jobCount = $('.results tbody tr[visible="true"]').length;
+                  if( jobCount == 0 || jobCount > 1 ) {
+                    $('.counter').text(jobCount + ' items');
+                  } else {
+                    $('.counter').text(jobCount + ' item');
+                  }
+
+                if(jobCount == '0') {$('.no-result').show();}
+                  else {$('.no-result').hide();}
+                    });
+              });
+          {% endblock %}
+      </script>
+  </body>
+</html>
