@@ -20,7 +20,7 @@ idna==2.8
 immutables==0.14
 itsdangerous==1.1.0
 Jinja2==2.11.3
-joblib==0.15.1
+joblib==1.2.0
 MarkupSafe==1.1.1
 nltk==3.5
 pyadaptivecards==0.1.0
